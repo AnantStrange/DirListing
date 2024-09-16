@@ -23,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['add'])) {
         $category = $_POST['category'];
         if (!empty($_POST['new_category'])) {
-            $category = $_POST['new_category'];  // Use new category if provided
+            // Use new category if provided
+            $category = $_POST['new_category'];
         }
         addSite($_POST['name'], $_POST['url'], $_POST['description'], $category, 1);
     } elseif (isset($_POST['check'])) {
@@ -41,7 +42,7 @@ $approvedSites = getSites(1);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title><?php echo TITLE; ?></title>
     <link rel="stylesheet" href="/css/dark-theme.css">
 </head>
 <body>
