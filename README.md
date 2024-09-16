@@ -32,7 +32,7 @@ The entry point is simply `index.php`.
 ## Contributors
 
 The porject is in very early stage and has a shit ton of scope to improve so ALL
-Contributions are highly welcome in the form of PRs, issues or mails :)
+Contributions are highly welcome in the form of PRs, issues or mails :)<br>
 See [TODO](./TODO.md)
 
 
