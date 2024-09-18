@@ -4,11 +4,14 @@ table {
     margin: 20px 0;
 }
 
-table, th, td {
+table,
+th,
+td {
     border: 1px solid #444;
 }
 
-th, td {
+th,
+td {
     padding: 8px;
     text-align: left;
 }
@@ -31,12 +34,66 @@ a:hover {
     text-decoration: underline;
 }
 
+
+/* Ensure the parent container of .pagination spans the full width */
+.container {
+    width: 100%; /* or a specific width if you have a max-width */
+    text-align: center; /* Center the content inside the container */
+}
+
+/* Center the pagination links */
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: #dcdcdc; /* Light text color for dark mode */
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #444; /* Dark border color */
+    margin: 0 2px;
+    background-color: #333; /* Dark background for pagination buttons */
+    border-radius: 5px; /* Standard button shape */
+    display: inline-block;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.pagination a.active {
+    background-color: #4CAF50; /* Highlight color for the active page */
+    color: white;
+    font-weight: bold;
+    border-radius: 50%; /* Circular shape for active page */
+    padding: 8px; /* Adjust padding for the circular shape */
+    border: 2px solid #4CAF50; /* Accent border for the active page */
+    width: 24px; /* Fixed width for circular appearance */
+    height: 24px; /* Fixed height for circular appearance */
+    display: inline-flex; /* Center text vertically */
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #555; /* Slightly lighter dark color on hover */
+}
+
+.pagination strong {
+    background-color: #4CAF50; /* Accent color */
+    color: white; /* Text color for current page */
+    border-radius: 20px; /* Rounded borders */
+    padding: 8px 16px; /* Padding to match other links */
+    margin: 0 2px; /* Space around the current page */
+    border: 2px solid #4CAF50; /* Accent border */
+}
+
+
 @media (max-width: 768px) {
     table {
         font-size: 14px;
     }
 
-    th, td {
+    th,
+    td {
         padding: 8px;
     }
 
@@ -44,4 +101,3 @@ a:hover {
         padding: 15px;
     }
 }
-

@@ -13,5 +13,8 @@ define('DEFAULT_CATEGORIES', ['Technology', 'Science', 'Art', 'Lifestyle']);
 
 define("TITLE","Strange's Directory Listing");
 
+define("ITEMS_PER_PAGE",10);
+
+
 
 ?>

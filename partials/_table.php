@@ -1,7 +1,14 @@
 <?php
 $root = $_SERVER['DOCUMENT_ROOT'];
 require_once($root . "/partials/_functions.php");
-$approvedSites = getSites(1);
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * ITEMS_PER_PAGE;
+
+// Fetch approved sites with pagination
+$approvedSites = getSites(1, $offset);
+
+$paginationLinks = paginate($page);
 ?>
 
 <head>
@@ -36,6 +43,11 @@ $approvedSites = getSites(1);
     </tbody>
 </table>
 
-
+ <!--Output pagination links -->
+<div class="container">
+    <div class="pagination">
+        <?= $paginationLinks ?>
+    </div>
+</div>
 
 

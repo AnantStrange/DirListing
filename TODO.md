@@ -2,7 +2,7 @@
 # List of features to implment, bugs to remove & general Map/Gauidline of the site aimed functionality
 
 - [ ] Make Sorting happen with individual columns
-- [ ] Paginate the Sites
+- [x] Paginate the Sites
 - [ ] Improve UI
 - [ ] Add a banner for disclaimer and messages.
 - [ ] Website Takedown request.

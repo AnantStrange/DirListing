@@ -15,9 +15,13 @@ if (file_exists($DB_PATH) && !is_writable($DB_PATH)) {
     die("The database file '" . $DB_PATH . "' is not writable. Please check the file permissions.");
 }
 
-// Establish connection to SQLite database
+// Establish a PDO connection to your SQLite database
 try {
-    $db = new SQLite3($DB_PATH);
+    // Initialize the PDO connection to the SQLite database
+    $db = new PDO('sqlite:' . $DB_PATH);
+    
+    // Set error mode to throw exceptions for better error handling
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // Create the `sites` table if it doesn't exist
     $db->exec('CREATE TABLE IF NOT EXISTS sites (
@@ -31,8 +35,9 @@ try {
         approved INTEGER DEFAULT 0
     )');
     
-} catch (Exception $e) {
+} catch (PDOException $e) {
     die("Unable to open database: " . $e->getMessage());
 }
+
 
 ?>
