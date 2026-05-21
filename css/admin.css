@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    padding: 10px 20px;
+    border: 2px soild red;
+}
+
+#admin_panel_title {
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto;
+    display: block;
+}
+
+#admin_pending_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    cursor: pointer;
+}
+
+#new_site_form input,textarea {
+    width: 99%;
+    margin-bottom: 10px;
+}

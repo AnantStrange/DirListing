@@ -1,3 +1,5 @@
+@import url('colors.css');
+
 #header {
     display: flex;
     justify-content: space-between;
@@ -19,45 +21,95 @@
     margin-left: auto;
 }
 
+#header-links {
+    display: flex;
+    gap: 10px;
+}
+
+#header-links a {
+    text-decoration: none;
+    color: white;
+}
+
+#header-links a:hover {
+    text-decoration: underline;
+}
+
 body {
-    background-color: #1e1e1e;
-    color: #dcdcdc;
+    background-color: var(--bg-col);
+    color: var(--color);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 10px 20px;
     border: 2px soild red;
 }
 
-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #2c2c2c;
-    padding: 20px;
+/* Combined search + sort container */
+.search-container {
+    background-color: var(--bg-acc-col);
     border-radius: 8px;
-    gap: 10px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
 }
 
-input[type="text"] {
+#search_bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+#search_bar input[type="text"] {
     flex: 1;
     padding: 10px;
-    border: 1px solid #444;
+    border: none;
     border-radius: 4px;
-    background-color: #3a3a3a;
-    color: #ffffff;
+    background-color: var(--bg-acc2-col);
+    color: inherit;
 }
 
-button {
+#search_bar button {
     padding: 10px 20px;
-    background-color: #4a90e2;
-    color: #ffffff;
+    background-color: var(--btn-col);
+    color: inherit;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
 }
 
-button:hover {
-    background-color: #357abd;
+.sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
+.sort-label {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+.sort-option {
+    margin: 5px;
+    padding: 4px 10px;
+    background-color: var(--bg-acc2-col);
+    border-radius: 4px;
+    font-size: 12px;
+    text-decoration: none;
+    border-bottom: none;  /* Also remove any bottom border */
+    color: var(--color);
+}
+.sort-option:hover {
+    text-decoration: underline;
+}
+
+.sort-option.active {
+    background-color: var(--btn-col);
+}
+
+.clear-sort {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 3px 8px;
+}

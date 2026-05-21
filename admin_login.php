@@ -3,9 +3,14 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 session_start();
 require_once($root . "/config.php");
 
+if (isset($_SESSION['admin']) && $_SESSION['admin'] == true) {
+    header("Location: admin.php");
+    exit;
+}
+
 // Check if the correct key is present for GET request
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (!isset($_GET['key']) || $_GET['key'] !== ADMIN_SECRET_KEY) {
+    if (!isset($_GET['key']) || !hash_equals(ADMIN_SECRET_KEY, $_GET['key']) ) {
         header("Location: /index.php");
         exit;
     }
@@ -28,27 +33,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="/css/dark-theme.css">
+    <link rel="stylesheet" href="/css/admin_login.css">
 </head>
 <body>
-    <h1>Admin Login</h1>
-    <form action="admin_login.php" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        
-        <button type="submit">Login</button>
-    </form>
+    <div>
+        <h1>Admin Login</h1>
+        <form action="admin_login.php" method="post">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>
 

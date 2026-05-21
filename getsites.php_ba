@@ -1,0 +1,131 @@
+/**
+ * Fetches a paginated list of sites based on various filters.
+ *
+ * @param array $filters Filter criteria:
+ *                       - string 'name'         Partial match for site name.
+ *                       - string 'url'          Partial match for site URL.
+ *                       - string 'description'  Partial match for site description.
+ *                       - int    'approved'     Filter by approval status (0 or 1).
+ *                       - string 'last_status'  Match exact last status value.
+ *                       - string 'start_date'   Start date for last_check (YYYY-MM-DD).
+ *                       - string 'end_date'     End date for last_check (YYYY-MM-DD).
+ *                       - string 'active_start' Start date for last_active (YYYY-MM-DD).
+ *                       - string 'active_end'   End date for last_active (YYYY-MM-DD).
+ *                       - string 'category'     Partial match for category name.
+ *                       - bool   'gen_search'   Search in name, URL, description, category.
+ * @param int   $offset  Offset for pagination.
+ * @param int   $limit   Number of items per page.
+ *
+ * @return array{
+ *     sites: array,  // List of matching site entries.
+ *     total: int     // Total count of matching sites.
+ * }
+ */
+function getSites($filters = [], $offset = 0, $limit = ITEMS_PER_PAGE) {
+    global $db;
+
+    $where = [];
+    $params = [];
+
+    if (!empty($filters['gen_search']) && !empty($filters['search'])) {
+        $where[] = '(s.name LIKE :general_search OR s.url LIKE :general_search OR s.description LIKE :general_search OR c.name LIKE :general_search)';
+        $params[':general_search'] = '%' . $filters['search'] . '%';
+    } else {
+        if (isset($filters['name'])) {
+            $where[] = 's.name LIKE :name';
+            $params[':name'] = '%' . $filters['name'] . '%';
+        }
+
+        if (isset($filters['url'])) {
+            $where[] = 's.url LIKE :url';
+            $params[':url'] = '%' . $filters['url'] . '%';
+        }
+
+        if (isset($filters['description'])) {
+            $where[] = 's.description LIKE :description';
+            $params[':description'] = '%' . $filters['description'] . '%';
+        }
+
+        if (!empty($filters['category'])) {
+            $where[] = 'c.name LIKE :category';
+            $params[':category'] = '%' . $filters['category'] . '%';
+        }
+    }
+
+    if (isset($filters['approved'])) {
+        $where[] = 's.approved = :approved';
+        $params[':approved'] = $filters['approved'];
+    }
+
+    if (isset($filters['last_status'])) {
+        $where[] = 's.last_status = :last_status';
+        $params[':last_status'] = $filters['last_status'];
+    }
+
+    if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
+        $where[] = 's.last_check BETWEEN :start_date AND :end_date';
+        $params[':start_date'] = $filters['start_date'];
+        $params[':end_date'] = $filters['end_date'];
+    }
+
+    if (!empty($filters['active_start']) && !empty($filters['active_end'])) {
+        $where[] = 's.last_active BETWEEN :active_start AND :active_end';
+        $params[':active_start'] = $filters['active_start'];
+        $params[':active_end'] = $filters['active_end'];
+    }
+
+    $whereSQL = $where ? ('WHERE ' . implode(' AND ', $where)) : '';
+
+    // Main query
+    $query = "
+        SELECT 
+            s.*, 
+            GROUP_CONCAT(DISTINCT c.name) AS categories,
+            ai.info AS additional_info
+        FROM sites s
+        LEFT JOIN site_categories sc ON s.id = sc.site_id
+        LEFT JOIN categories c ON sc.category_id = c.id
+        LEFT JOIN additional_info ai ON s.id = ai.site_id
+        $whereSQL
+        GROUP BY s.id
+        LIMIT :limit OFFSET :offset
+    ";
+
+    $stmt = $db->prepare($query);
+
+    foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+    }
+
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+    $sites = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($sites as &$site) {
+        $site['categories'] = $site['categories'] ? explode(',', $site['categories']) : [];
+    }
+
+    // Count query
+    $countQuery = "
+        SELECT COUNT(DISTINCT s.id) as count
+        FROM sites s
+        LEFT JOIN site_categories sc ON s.id = sc.site_id
+        LEFT JOIN categories c ON sc.category_id = c.id
+        $whereSQL
+    ";
+
+    $countStmt = $db->prepare($countQuery);
+    foreach ($params as $key => $val) {
+        $countStmt->bindValue($key, $val, is_int($val) ? PDO::PARAM_INT : PDO::PARAM_STR);
+    }
+    $countStmt->execute();
+    $totalCount = (int) $countStmt->fetchColumn();
+
+    return [
+        'sites' => $sites,
+        'total' => $totalCount
+    ];
+}
+

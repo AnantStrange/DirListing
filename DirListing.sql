@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS sites (
     description TEXT,
     last_status TEXT DEFAULT 'unchecked',
     last_check TEXT DEFAULT 'unchecked',
+    last_active TEXT DEFAULT 'unchecked',
     approved INTEGER DEFAULT 0,
     click_count INTEGER DEFAULT 0
 );

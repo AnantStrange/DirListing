@@ -3,10 +3,10 @@
 
 - [ ] Make Sorting happen with individual columns
 - [x] Paginate the Sites
-- [ ] Improve UI
+- [-] Improve UI
+- [ ] Add a button to change ITEMS_PER_PAGE
 - [ ] Add a banner for disclaimer and messages.
-- [ ] Website Takedown request.
-  - Maybe just add a mail and be done with it ?
+- [ ] "Approve All" Button in admin Panel
 
 - [ ] Make Categories links and each category should be searchable, sortable
   - Categories must be browsable 

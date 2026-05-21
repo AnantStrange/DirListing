@@ -20,7 +20,7 @@ The entry point is simply `index.php`.
 
 - `ADMIN_SECRET_KEY` : Secret key for admin access.<br>
     > [!NOTE] <br>
-    > - To access the admin panel use : https://oniondomain.onion/index.php?action=admin_login&key=ADMIN_SECRET_KEY<br>
+    > - To access the admin panel use : https://domain.tld/index.php?action=admin_login&key=ADMIN_SECRET_KEY<br>
     > - You **CANNOT** get to the admin login page without this secrety key. You will
     > need the `ADMIN_SECRET_KEY` key to access the admin panel and then `ADMIN_PASSWORD` to
     > login.<br>
@@ -28,6 +28,18 @@ The entry point is simply `index.php`.
 
 - `DEFAULT_CATEGORIES` : Default pre built categories to select in drop down.<br>
     > Additional Categories can be made on the fly while adding a site with UI
+ 
+## ScreenShots
+<details>
+<summary>Expand</summary>
+
+![index_1.png](./img/showcase/index_1.png "Index.php 1")
+![index_2.png](./img/showcase/index_2.png "Index.php 2")
+![admin_login.png](./img/showcase/admin_login.png "Admin Login Page")
+![submit_site.png](./img/showcase/submit_site.png "Submit Site Page")
+
+</details>
+
 
 ## Contributors
 

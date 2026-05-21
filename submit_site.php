@@ -2,17 +2,23 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+$root = $_SERVER['DOCUMENT_ROOT'];
+require_once($root . "/partials/_functions.php");
+$categories = getCategories();
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit a Site</title>
-    <link rel="stylesheet" href="dark-theme.css">
+    <link rel="stylesheet" href="css/submit_site.css">
 </head>
 
 <body>
     <h1>Submit a Site</h1>
     <?php if (isset($message)): ?>
-        <p><?= htmlspecialchars($message) ?></p>
+        <p><?= $message ?></p>
     <?php endif; ?>
     <form action="submit_site.php?action=submit_site" method="post">
         <label for="name">Name:</label>
@@ -26,11 +32,11 @@
 
         <label for="category">Category:</label>
         <select id="category" name="category">
-            <?php foreach (DEFAULT_CATEGORIES as $category): ?>
+            <?php foreach ($categories as $category): ?>
                 <option value="<?= htmlspecialchars($category) ?>"><?= htmlspecialchars($category) ?></option>
             <?php endforeach; ?>
         </select>
-        <input type="text" id="new_category" name="new_category" placeholder="Or enter a new category">
+        <input type="text" id="new_category" name="new_category" placeholder="Or enter a new category(ies seperated by commas)">
 
         <button type="submit">Submit</button>
     </form>
@@ -42,7 +48,6 @@
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     if ($_POST['action'] === 'submit_site') {
 
         $category = $_POST['category'];
